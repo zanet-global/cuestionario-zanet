@@ -1,0 +1,954 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Cuestionario Inicial · Zanet Global</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  /* ============== Zanet Gestor — paleta y base ============== */
+  :root {
+    /* Zanet brand palette — oficial del Design System */
+    --bg: #FFFFFF;             /* fondo principal blanco */
+    --bg-2: #F4FAF7;
+    --panel: #FFFFFF;
+    --panel-2: #F8FDFB;
+    --border: #E5E9F0;
+    --border-2: #CBD5E1;
+    --highlight-bg: #E4F5EC;   /* verde plano para Cuestionario Inicial + Datos del cliente */
+    --text: #282C30;           /* Zanet dark */
+    --text-muted: #6B6E73;
+    --text-dim: #9A9DA0;
+    --brand: #29E9B3;          /* Verde Zanet */
+    --brand-2: #14A87F;        /* Verde Zanet oscuro (texto/bordes) */
+    --brand-dark: #0D8A69;
+    --brand-soft: rgba(41, 233, 179, 0.14);
+    --brand-border: rgba(41, 233, 179, 0.40);
+    --blue: #3B82F6;           /* Preventivo */
+    --blue-soft: rgba(59, 130, 246, 0.08);
+    --amber: #F59E0B;
+    --amber-soft: rgba(245, 158, 11, 0.10);
+    --red: #EF4444;
+    --red-soft: rgba(239, 68, 68, 0.08);
+    --indigo: #7C5CFC;         /* IA (no usado aquí, pero reservado) */
+    --radius: 14px;
+    --radius-sm: 10px;
+    --shadow: 0 4px 18px rgba(40, 44, 48, 0.06);
+    --shadow-sm: 0 1px 3px rgba(40, 44, 48, 0.04);
+  }
+
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; background: var(--bg); color: var(--text); font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif; font-size: 16px; line-height: 1.55; }
+  body { min-height: 100vh; background-color: var(--bg); }
+
+  /* ============== Layout ============== */
+  .page { max-width: 1040px; margin: 0 auto; padding: 28px 24px 90px; }
+
+  /* ============== Header ============== */
+  .topbar { display: flex; align-items: center; justify-content: space-between; padding: 20px 26px; background: var(--panel); border: 1px solid var(--border); border-radius: var(--radius); box-shadow: var(--shadow-sm); margin-bottom: 24px; }
+  .brand { display: flex; align-items: center; gap: 16px; }
+  .brand-wordmark { font-size: 40px; font-weight: 800; letter-spacing: -0.8px; color: var(--text); line-height: 1; }
+  .brand-dot { display: inline-block; width: 7px; height: 7px; border-radius: 1px; background: var(--brand); margin-left: 3px; vertical-align: baseline; }
+  .topbar-right { display: flex; align-items: center; gap: 10px; }
+  .save-indicator { font-size: 13px; color: var(--text-muted); display: flex; align-items: center; gap: 8px; padding: 8px 14px; border-radius: 999px; background: var(--bg-2); border: 1px solid var(--border); }
+  .save-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--brand); box-shadow: 0 0 10px var(--brand); }
+
+  /* ============== Hero ============== */
+  .hero { background: var(--highlight-bg); border: 1px solid var(--brand-border); border-radius: var(--radius); padding: 34px 36px; margin-bottom: 24px; box-shadow: var(--shadow-sm); }
+  .hero .kicker { display: inline-block; font-size: 12px; font-weight: 600; letter-spacing: 1.2px; text-transform: uppercase; color: var(--brand-2); margin-bottom: 10px; padding: 4px 10px; background: #FFFFFF; border-radius: 999px; border: 1px solid var(--brand-border); }
+  .hero h1 { margin: 0 0 10px; font-size: 34px; font-weight: 600; letter-spacing: -.5px; position: relative; color: var(--text); line-height: 1.15; }
+  .hero h1 .accent-square { display: inline-block; width: 10px; height: 10px; border-radius: 2px; background: var(--brand); margin-left: 6px; position: relative; bottom: 2px; }
+  .hero p { margin: 0; color: var(--text-muted); max-width: 720px; position: relative; font-size: 15px; line-height: 1.6; }
+
+  /* ============== Progress bar ============== */
+  .progress-wrap { background: var(--panel); border: 1px solid var(--border); border-radius: var(--radius); padding: 16px 22px; margin-bottom: 24px; display: flex; align-items: center; gap: 16px; }
+  .progress-label { font-size: 13px; color: var(--text-muted); font-weight: 500; white-space: nowrap; }
+  .progress-bar { flex: 1; height: 10px; background: var(--bg-2); border-radius: 999px; overflow: hidden; }
+  .progress-fill { height: 100%; background: linear-gradient(90deg, var(--brand) 0%, var(--brand-2) 100%); width: 0%; transition: width .4s ease; border-radius: 999px; }
+  .progress-pct { font-size: 14px; font-weight: 600; color: var(--brand-2); min-width: 44px; text-align: right; }
+
+  /* ============== Sections ============== */
+  .section { background: var(--panel); border: 1px solid var(--border); border-radius: var(--radius); padding: 26px 28px; margin-bottom: 20px; box-shadow: var(--shadow-sm); position: relative; overflow: hidden; }
+  .section-head { display: flex; align-items: center; gap: 14px; margin-bottom: 20px; padding-bottom: 16px; border-bottom: 1px solid var(--border); position: relative; }
+  .section-icon { width: 42px; height: 42px; border-radius: 11px; display: flex; align-items: center; justify-content: center; font-size: 20px; font-weight: 700; background: var(--brand-soft); color: var(--brand-2); border: 1px solid var(--brand-border); flex-shrink: 0; }
+  .section-title { font-size: 18px; font-weight: 700; margin: 0; color: var(--text); }
+  .section-title .accent-square { display: inline-block; width: 7px; height: 7px; border-radius: 2px; background: var(--brand); margin-left: 4px; position: relative; bottom: 1px; }
+  @media (max-width: 720px) {
+    .section-title { font-size: 16px; }
+    .section-title .accent-square { width: 6px; height: 6px; margin-left: 3px; bottom: 1px; }
+    .section-head { gap: 10px; }
+    .section-icon { width: 36px; height: 36px; }
+  }
+  .section-sub { font-size: 13px; color: var(--text-muted); margin-top: 4px; }
+  /* Section destacada (mismo fondo que el hero — para bloques pre-cumplimentados) */
+  .section.section-highlight { background: var(--highlight-bg); border-color: var(--brand-border); }
+  /* Campos bloqueados cuando el cuestionario llega al cliente */
+  .section.section-highlight input[readonly] { background: rgba(255,255,255,0.6); border-style: dashed; cursor: not-allowed; color: var(--text); }
+  .section.section-highlight input[readonly]:focus { box-shadow: none; border-color: var(--border-2); }
+
+  /* ============== Form fields ============== */
+  .grid { display: grid; gap: 14px; }
+  .grid.cols-2 { grid-template-columns: 1fr 1fr; }
+  .grid.cols-3 { grid-template-columns: 1fr 1fr 1fr; }
+  @media (max-width: 720px) { .grid.cols-2, .grid.cols-3 { grid-template-columns: 1fr; } }
+
+  .field { display: flex; flex-direction: column; gap: 8px; }
+  .field label { font-size: 14px; color: var(--text); font-weight: 600; display: flex; align-items: center; gap: 6px; letter-spacing: -0.1px; }
+  .field label .req { color: var(--amber); font-size: 12px; }
+  .field input, .field select, .field textarea {
+    width: 100%; background: #FFFFFF; color: var(--text); border: 1px solid var(--border-2);
+    border-radius: var(--radius-sm); padding: 12px 14px; font-size: 15px; font-family: inherit;
+    transition: border-color .15s, box-shadow .15s, background .15s;
+  }
+  .field input:focus, .field select:focus, .field textarea:focus { outline: none; border-color: var(--brand); box-shadow: 0 0 0 3px var(--brand-soft); background: #FFFFFF; }
+  .field textarea { min-height: 96px; resize: vertical; }
+  .field input::placeholder, .field textarea::placeholder { color: var(--text-dim); font-weight: 400; }
+  .hint { font-size: 12px; color: var(--text-dim); margin-top: 2px; }
+
+  /* Radio SI/NO group */
+  .yn-group { display: flex; gap: 6px; }
+  .yn-group input[type="radio"] { display: none; }
+  .yn-group label { flex: 1; padding: 10px 14px; text-align: center; background: #FFFFFF; border: 1px solid var(--border-2); border-radius: var(--radius-sm); font-size: 14px; font-weight: 600; color: var(--text-muted); cursor: pointer; transition: all .15s; }
+  .yn-group input[type="radio"]:checked + label.yes { background: var(--brand-soft); color: var(--brand-2); border-color: var(--brand-border); }
+  .yn-group input[type="radio"]:checked + label.no { background: var(--red-soft); color: #B91C1C; border-color: rgba(239,68,68,0.35); }
+  .yn-group label:hover { background: var(--panel-2); color: var(--text); }
+
+  /* Typology grid */
+  .typo-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  @media (max-width: 720px) { .typo-grid { grid-template-columns: 1fr; } }
+  .typo-row { display: flex; align-items: center; justify-content: space-between; gap: 14px; padding: 12px 16px; background: #FFFFFF; border: 1px solid var(--border-2); border-radius: var(--radius-sm); transition: border-color .15s; }
+  .typo-row:hover { border-color: var(--brand-border); }
+  .typo-row.has-value { border-color: var(--brand-border); background: #FAFFFD; }
+  .typo-label { font-size: 15px; font-weight: 500; color: var(--text); }
+  .typo-yn { display: flex; gap: 6px; }
+  .typo-yn label { padding: 6px 12px; font-size: 12px; font-weight: 700; background: transparent; border: 1px solid var(--border-2); border-radius: 6px; color: var(--text-muted); cursor: pointer; transition: all .15s; }
+  .typo-yn input[type="radio"] { display: none; }
+  .typo-yn input[type="radio"]:checked + label.yes { background: var(--brand-soft); color: var(--brand-2); border-color: var(--brand-border); }
+  .typo-yn input[type="radio"]:checked + label.no { background: var(--red-soft); color: #B91C1C; border-color: rgba(239,68,68,0.35); }
+
+  /* Comment box for each section */
+  .section-comment { margin-top: 18px; padding-top: 16px; border-top: 1px dashed var(--border); }
+
+  /* ============== Subcard (contactos) ============== */
+  .subcard { background: rgba(255,255,255,0.7); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 20px; margin-top: 14px; }
+  .subcard-head { display: flex; align-items: center; gap: 12px; margin-bottom: 16px; }
+  .avatar { width: 40px; height: 40px; border-radius: 50%; background: linear-gradient(135deg, var(--brand) 0%, var(--brand-2) 100%); display: flex; align-items: center; justify-content: center; color: #0D3A2C; flex-shrink: 0; }
+  .avatar svg { width: 22px; height: 22px; }
+  .subcard-title { font-size: 15px; font-weight: 700; color: var(--text); }
+
+  /* ============== Actions bar ============== */
+  .actions { position: sticky; bottom: 16px; display: flex; align-items: center; justify-content: space-between; gap: 12px; background: rgba(255, 251, 248, 0.95); border: 1px solid var(--border); border-radius: var(--radius); padding: 14px 18px; margin-top: 24px; box-shadow: 0 -6px 20px rgba(40, 44, 48, 0.06); backdrop-filter: blur(10px); flex-wrap: wrap; }
+  .actions-left { display: flex; gap: 8px; flex-wrap: wrap; }
+
+  .btn { display: inline-flex; align-items: center; gap: 8px; padding: 12px 22px; border-radius: var(--radius-sm); font-size: 14px; font-weight: 600; cursor: pointer; border: 1px solid transparent; transition: all .15s; font-family: inherit; }
+  .btn-primary { background: var(--brand); color: #0D3A2C; box-shadow: 0 4px 16px rgba(41,233,179,0.35); font-weight: 700; }
+  .btn-primary:hover { transform: translateY(-1px); box-shadow: 0 6px 20px rgba(41,233,179,0.50); background: #2BEFBA; }
+  .btn-primary:disabled { opacity: .5; cursor: not-allowed; transform: none; }
+  .btn-ghost { background: transparent; color: var(--text-muted); border-color: var(--border); }
+  .btn-ghost:hover { background: var(--bg-2); color: var(--text); border-color: var(--border-2); }
+  .btn-danger { background: transparent; color: #B91C1C; border-color: rgba(239,68,68,0.30); }
+  .btn-danger:hover { background: var(--red-soft); }
+
+  /* ============== Success / error banners ============== */
+  .banner { padding: 14px 18px; border-radius: var(--radius-sm); font-size: 14px; margin-bottom: 16px; display: flex; align-items: flex-start; gap: 10px; }
+  .banner.success { background: var(--brand-soft); color: var(--brand-2); border: 1px solid var(--brand-border); }
+  .banner.error { background: var(--red-soft); color: #B91C1C; border: 1px solid rgba(239,68,68,0.30); }
+  .banner.info { background: var(--blue-soft); color: #1D4ED8; border: 1px solid rgba(59,130,246,0.30); }
+
+  /* ============== Success screen ============== */
+  .success-screen { text-align: center; padding: 72px 48px; background: var(--panel); border: 1px solid var(--border); border-radius: var(--radius); box-shadow: var(--shadow); }
+  .success-icon { width: 84px; height: 84px; border-radius: 50%; background: var(--brand-soft); border: 2px solid var(--brand-border); display: inline-flex; align-items: center; justify-content: center; font-size: 38px; margin-bottom: 22px; color: var(--brand-2); }
+  .success-screen h2 { margin: 0 0 12px; font-size: 26px; font-weight: 700; color: var(--text); }
+  .success-screen p { color: var(--text-muted); max-width: 520px; margin: 0 auto; font-size: 15px; line-height: 1.6; }
+
+  /* ============== Hidden ============== */
+  .hidden { display: none !important; }
+
+  /* ============== Toast ============== */
+  .toast { position: fixed; bottom: 100px; right: 28px; background: var(--panel); border: 1px solid var(--brand-border); color: var(--brand-2); padding: 12px 18px; border-radius: var(--radius-sm); font-size: 13px; font-weight: 600; box-shadow: var(--shadow); opacity: 0; transform: translateY(10px); transition: all .25s; pointer-events: none; z-index: 100; }
+  .toast.show { opacity: 1; transform: translateY(0); }
+
+  /* ============== Footer ============== */
+  .footer { text-align: center; color: var(--text-dim); font-size: 12px; margin-top: 36px; }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <!-- ============== Topbar ============== -->
+  <div class="topbar">
+    <div class="brand">
+      <div class="brand-wordmark">Zanet<span class="brand-dot"></span></div>
+    </div>
+    <div class="topbar-right">
+      <div class="save-indicator" id="saveIndicator">
+        <span class="save-dot"></span>
+        <span id="saveText">Guardado automático</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============== Main form wrapper ============== -->
+  <div id="formView">
+
+    <!-- ============== Hero ============== -->
+    <div class="hero">
+      <span class="kicker">Cuestionario de implantación</span>
+      <h1>Cuestionario Inicial<span class="accent-square"></span></h1>
+      <p>Gracias por colaborar con nosotras en esta fase inicial. Este cuestionario nos ayuda a dimensionar correctamente el proyecto de implantación. Puedes rellenarlo poco a poco — se guarda automáticamente en este navegador y puedes volver al enlace cuando quieras.</p>
+    </div>
+
+    <!-- ============== FORM ============== -->
+    <form id="mainForm" autocomplete="off">
+
+      <!-- ============ PERSONAS DE CONTACTO (pre-cumplimentado por Zanet) ============ -->
+      <div class="section section-highlight">
+        <div class="section-head">
+          <div class="section-icon"><svg viewBox="0 0 14 14" fill="currentColor" style="width:22px;height:22px"><path d="M7 1L8.5 5.5L13 7L8.5 8.5L7 13L5.5 8.5L1 7L5.5 5.5L7 1Z"/></svg></div>
+          <div>
+            <div class="section-title">Personas de contacto<span class="accent-square"></span></div>
+            <div class="section-sub">Personas a quienes podemos contactar</div>
+          </div>
+        </div>
+
+        <!-- Contacto 1 -->
+        <div class="subcard">
+          <div class="subcard-head">
+            <div class="avatar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21v-1a6 6 0 0 1 6-6h4a6 6 0 0 1 6 6v1"/></svg></div>
+            <div class="subcard-title">Persona de contacto 1</div>
+          </div>
+          <div class="grid cols-2">
+            <div class="field">
+              <label>Nombre y apellidos <span class="req">*</span></label>
+              <input type="text" name="c1_nombre" id="c1_nombre" required />
+            </div>
+            <div class="field">
+              <label>Cargo</label>
+              <input type="text" name="c1_cargo" id="c1_cargo" />
+            </div>
+            <div class="field">
+              <label>Email <span class="req">*</span></label>
+              <input type="email" name="c1_email" id="c1_email" required />
+            </div>
+            <div class="field">
+              <label>Teléfono</label>
+              <input type="tel" name="c1_telefono" id="c1_telefono" />
+            </div>
+          </div>
+        </div>
+
+        <!-- Contacto 2 (opcional) -->
+        <div class="subcard">
+          <div class="subcard-head">
+            <div class="avatar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21v-1a6 6 0 0 1 6-6h4a6 6 0 0 1 6 6v1"/></svg></div>
+            <div class="subcard-title">Persona de contacto 2 <span style="color:var(--text-dim);font-weight:500;font-size:13px">(opcional)</span></div>
+          </div>
+          <div class="grid cols-2">
+            <div class="field">
+              <label>Nombre y apellidos</label>
+              <input type="text" name="c2_nombre" id="c2_nombre" />
+            </div>
+            <div class="field">
+              <label>Cargo</label>
+              <input type="text" name="c2_cargo" id="c2_cargo" />
+            </div>
+            <div class="field">
+              <label>Email</label>
+              <input type="email" name="c2_email" id="c2_email" />
+            </div>
+            <div class="field">
+              <label>Teléfono</label>
+              <input type="tel" name="c2_telefono" id="c2_telefono" />
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ============== Progress ============== -->
+      <div class="progress-wrap">
+        <span class="progress-label">Progreso</span>
+        <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+        <span class="progress-pct" id="progressPct">0%</span>
+      </div>
+
+      <!-- ============ DATOS DEL CLIENTE (rellena el cliente) ============ -->
+      <div class="section">
+        <div class="section-head">
+          <div class="section-icon"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="width:22px;height:22px"><rect x="3" y="4" width="14" height="12" rx="1"/><path d="M7 4v12M13 4v12M3 9h14"/><circle cx="5" cy="6" r="0.5" fill="currentColor"/><circle cx="5" cy="11" r="0.5" fill="currentColor"/><circle cx="15" cy="6" r="0.5" fill="currentColor"/><circle cx="15" cy="11" r="0.5" fill="currentColor"/></svg></div>
+          <div>
+            <div class="section-title">Datos del cliente<span class="accent-square"></span></div>
+            <div class="section-sub">Información fiscal y operativa de la empresa</div>
+          </div>
+        </div>
+
+        <div class="grid cols-2">
+          <div class="field">
+            <label>Empresa <span class="req">*</span></label>
+            <input type="text" name="empresa" id="empresa" required placeholder="Nombre fiscal o comercial" />
+          </div>
+          <div class="field">
+            <label>CIF</label>
+            <input type="text" name="cif" id="cif" placeholder="Ej. B12345678" />
+          </div>
+          <div class="field">
+            <label>Sector / actividad</label>
+            <input type="text" name="sector" id="sector" placeholder="Ej. Logística, distribución, alimentación…" />
+          </div>
+          <div class="field">
+            <label>Provincia sede principal</label>
+            <input type="text" name="provincia" id="provincia" placeholder="Ej. Madrid" />
+          </div>
+          <div class="field">
+            <label>Nº de delegaciones o centros</label>
+            <input type="number" name="delegaciones" id="delegaciones" min="0" placeholder="Ej. 3" />
+          </div>
+          <div class="field">
+            <label>Marca principal de distribución</label>
+            <input type="text" name="marca_distribucion" id="marca_distribucion" placeholder="Ej. Still" />
+          </div>
+        </div>
+      </div>
+
+      <!-- ============ 1. ACTIVOS GESTIONADOS ============ -->
+      <div class="section">
+        <div class="section-head">
+          <div class="section-icon">1</div>
+          <div>
+            <div class="section-title">Activos gestionados<span class="accent-square"></span></div>
+            <div class="section-sub">Volumen y documentación de maquinaria</div>
+          </div>
+        </div>
+
+        <div class="grid cols-2">
+          <div class="field">
+            <label>Nº de máquinas propias</label>
+            <input type="number" name="maq_propias" min="0" placeholder="Ej. 100" />
+          </div>
+          <div class="field">
+            <label>Marcas principales (máquinas propias)</label>
+            <input type="text" name="marcas_propias" placeholder="Ej. Toyota, Still, Linde…" />
+          </div>
+          <div class="field">
+            <label>Nº de máquinas externas (no propias)</label>
+            <input type="number" name="maq_externas" min="0" placeholder="Ej. 300" />
+          </div>
+          <div class="field">
+            <label>Marcas principales (máquinas externas)</label>
+            <input type="text" name="marcas_externas" placeholder="Ej. Toyota, Still, Linde…" />
+          </div>
+        </div>
+
+        <div class="grid cols-2" style="margin-top:14px">
+          <div class="field">
+            <label>¿Disponéis de los manuales de las máquinas propias?</label>
+            <div class="yn-group">
+              <input type="radio" name="manuales_propias" value="Sí (todos)" id="mp_si" />
+              <label for="mp_si" class="yes">Sí (todos)</label>
+              <input type="radio" name="manuales_propias" value="Parcialmente" id="mp_parcial" />
+              <label for="mp_parcial" class="yes" style="opacity:.85">Parcial</label>
+              <input type="radio" name="manuales_propias" value="No" id="mp_no" />
+              <label for="mp_no" class="no">No</label>
+            </div>
+          </div>
+          <div class="field" id="pct_propias_wrap" style="display:none">
+            <label>% aproximado de manuales (propias)</label>
+            <input type="number" name="manuales_propias_pct" min="0" max="100" placeholder="0-100" />
+          </div>
+        </div>
+
+        <div class="grid cols-2" style="margin-top:14px">
+          <div class="field">
+            <label>¿Disponéis de los manuales de las máquinas externas?</label>
+            <div class="yn-group">
+              <input type="radio" name="manuales_externas" value="Sí (todos)" id="me_si" />
+              <label for="me_si" class="yes">Sí (todos)</label>
+              <input type="radio" name="manuales_externas" value="Parcialmente" id="me_parcial" />
+              <label for="me_parcial" class="yes" style="opacity:.85">Parcial</label>
+              <input type="radio" name="manuales_externas" value="No" id="me_no" />
+              <label for="me_no" class="no">No</label>
+            </div>
+          </div>
+          <div class="field" id="pct_externas_wrap" style="display:none">
+            <label>% aproximado de manuales (externas)</label>
+            <input type="number" name="manuales_externas_pct" min="0" max="100" placeholder="0-100" />
+          </div>
+        </div>
+
+        <div class="grid cols-2" style="margin-top:14px">
+          <div class="field">
+            <label>Nº aproximado de modelos distintos</label>
+            <input type="text" name="modelos_distintos" placeholder="Ej. 50 aprox" />
+          </div>
+        </div>
+
+        <div class="section-comment">
+          <div class="field">
+            <label>Comentarios sobre activos <span style="color:var(--text-dim);font-weight:400">(opcional)</span></label>
+            <textarea name="comentarios_activos" placeholder="Añade cualquier comentario sobre tu parque de máquinas, documentación disponible, formato de los manuales, etc."></textarea>
+          </div>
+        </div>
+      </div>
+
+      <!-- ============ 2. DISTRIBUCIÓN DE RECURSOS ============ -->
+      <div class="section">
+        <div class="section-head">
+          <div class="section-icon">2</div>
+          <div>
+            <div class="section-title">Distribución de recursos<span class="accent-square"></span></div>
+            <div class="section-sub">Número de personas involucradas en el negocio</div>
+          </div>
+        </div>
+
+        <div class="grid cols-2">
+          <div class="field">
+            <label>Nº total de empleados</label>
+            <input type="number" name="emp_total" min="0" />
+          </div>
+          <div class="field">
+            <label>Nº de técnicos</label>
+            <input type="number" name="emp_tecnicos" min="0" />
+          </div>
+          <div class="field">
+            <label>Nº de jefes de taller / gestores</label>
+            <input type="number" name="emp_jefes" min="0" />
+          </div>
+          <div class="field">
+            <label>Nº de mandos intermedios / dirección</label>
+            <input type="number" name="emp_mandos" min="0" />
+          </div>
+        </div>
+
+        <div class="section-comment">
+          <div class="field">
+            <label>Comentarios sobre el equipo <span style="color:var(--text-dim);font-weight:400">(opcional)</span></label>
+            <textarea name="comentarios_recursos" placeholder="Estructura del equipo, turnos, etc."></textarea>
+          </div>
+        </div>
+      </div>
+
+      <!-- ============ 3. TIPOLOGÍA DE MAQUINARIA ============ -->
+      <div class="section">
+        <div class="section-head">
+          <div class="section-icon">3</div>
+          <div>
+            <div class="section-title">Tipología de maquinaria<span class="accent-square"></span></div>
+            <div class="section-sub">Tipos de equipos que gestionáis actualmente</div>
+          </div>
+        </div>
+
+        <div class="typo-grid" id="typoGrid">
+          <!-- filled by JS -->
+        </div>
+
+        <div class="grid cols-2" style="margin-top:14px">
+          <div class="field">
+            <label>Otros tipos de maquinaria</label>
+            <input type="text" name="tipo_otros" placeholder="¿Cuáles?" />
+          </div>
+        </div>
+
+        <div class="section-comment">
+          <div class="field">
+            <label>Comentarios sobre tipología <span style="color:var(--text-dim);font-weight:400">(opcional)</span></label>
+            <textarea name="comentarios_tipologia" placeholder="Especifica modelos especiales, equipos prioritarios, tipos de máquina principales, etc."></textarea>
+          </div>
+        </div>
+      </div>
+
+      <!-- ============ 4. SISTEMAS E INTEGRACIÓN ============ -->
+      <div class="section">
+        <div class="section-head">
+          <div class="section-icon">4</div>
+          <div>
+            <div class="section-title">Sistemas e integración<span class="accent-square"></span></div>
+            <div class="section-sub">ERP actual y arquitectura de sistemas</div>
+          </div>
+        </div>
+
+        <div class="grid cols-2">
+          <div class="field">
+            <label>Nombre del ERP</label>
+            <input type="text" name="erp_nombre" placeholder="Ej. Navision, Dynamics, SAP…" />
+          </div>
+          <div class="field">
+            <label>¿Está en la nube o en servidor propio?</label>
+            <select name="erp_hosting">
+              <option value="">— Selecciona —</option>
+              <option value="Nube">En la nube</option>
+              <option value="Servidor propio">Servidor propio (on-premise)</option>
+              <option value="Híbrido">Híbrido (ambos)</option>
+              <option value="No lo sé">No lo sé</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="grid cols-2" style="margin-top:14px">
+          <div class="field">
+            <label>Otros sistemas relevantes</label>
+            <input type="text" name="sistemas_otros" placeholder="Ej. CMMS, sistema de tickets, integraciones…" />
+          </div>
+          <div class="field">
+            <label>¿Tenéis API o integraciones activas?</label>
+            <select name="sistemas_api">
+              <option value="">— Selecciona —</option>
+              <option value="Sí">Sí</option>
+              <option value="No">No</option>
+              <option value="No lo sé">No lo sé</option>
+            </select>
+          </div>
+          <div class="field">
+            <label>¿Cómo gestionáis las órdenes de trabajo?</label>
+            <select name="gestion_ot">
+              <option value="">— Selecciona —</option>
+              <option value="En papel">En papel</option>
+              <option value="En el ERP">En el ERP</option>
+              <option value="En otro sistema digital">En otro sistema digital</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="section-comment">
+          <div class="field">
+            <label>Comentarios sobre sistemas <span style="color:var(--text-dim);font-weight:400">(opcional)</span></label>
+            <textarea name="comentarios_sistemas" placeholder="Detalles sobre versiones, planes de migración, integraciones pendientes…"></textarea>
+          </div>
+        </div>
+      </div>
+
+      <!-- ============ Comentario global ============ -->
+      <div class="section">
+        <div class="section-head">
+          <div class="section-icon"><svg viewBox="0 0 14 14" fill="currentColor" style="width:22px;height:22px"><path d="M7 1L8.5 5.5L13 7L8.5 8.5L7 13L5.5 8.5L1 7L5.5 5.5L7 1Z"/></svg></div>
+          <div>
+            <div class="section-title">Comentarios finales</div>
+            <div class="section-sub">Cualquier aspecto que consideres relevante</div>
+          </div>
+        </div>
+        <div class="field">
+          <textarea name="comentarios_global" placeholder="Notas adicionales" style="min-height: 110px;"></textarea>
+        </div>
+      </div>
+
+      <!-- ============ Actions bar ============ -->
+      <div class="actions">
+        <div class="actions-left">
+          <button type="button" class="btn btn-ghost" id="btnLink">↗ Generar enlace</button>
+          <button type="button" class="btn btn-danger" id="btnClear">✕ Borrar datos</button>
+        </div>
+        <button type="submit" class="btn btn-primary" id="btnSubmit">Enviar cuestionario →</button>
+      </div>
+
+      <div id="errorBanner" class="banner error hidden" style="margin-top: 16px;"></div>
+    </form>
+  </div>
+
+  <!-- ============== Success view ============== -->
+  <div id="successView" class="success-screen hidden">
+    <div class="success-icon">✓</div>
+    <h2>¡Cuestionario enviado!</h2>
+    <p>Hemos recibido tu información correctamente. El equipo de Zanet se pondrá en contacto contigo en breve. Gracias por tu tiempo.</p>
+  </div>
+
+  <div class="footer">
+    Zanet Global · Cuestionario inicial de implantación · © 2026
+  </div>
+
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+/* ================================================================
+   CONFIGURACIÓN — cambiar aquí si hace falta
+   ================================================================ */
+const CONFIG = {
+  // Emails de destino (el principal es el de la action del formulario;
+  // el resto van en copia).
+  EMAIL_PRIMARY: 's.alvaradejo@zanetglobal.com',
+  EMAIL_CC: '',   // <-- Añadir aquí el email de Vane cuando quieras: 'vanessa@zanetglobal.com'
+
+  // FormSubmit endpoint (no requiere registro).
+  // La primera vez que se envíe, FormSubmit mandará un email de activación
+  // al EMAIL_PRIMARY para confirmar. A partir de ahí, los envíos llegan directos.
+  FORMSUBMIT_URL: 'https://formsubmit.co/ajax/s.alvaradejo@zanetglobal.com',
+
+  STORAGE_KEY: 'zanet_cuestionario_v1',
+};
+
+/* ================================================================
+   Tipología de maquinaria (del Excel original)
+   ================================================================ */
+const TIPOLOGIAS = [
+  { key: 'carretillas', label: 'Carretillas' },
+  { key: 'carretillas_gran_tonelaje', label: 'Carretillas de gran tonelaje' },
+  { key: 'apiladores', label: 'Apiladores' },
+  { key: 'retractiles', label: 'Retráctiles' },
+  { key: 'transpaletas', label: 'Transpaletas' },
+  { key: 'recogepedidos', label: 'Recogepedidos' },
+  { key: 'tractores_arrastre', label: 'Tractores de arrastre' },
+  { key: 'remolcadores', label: 'Remolcadores industriales' },
+  { key: 'agv_amr', label: 'AGVs / AMRs' },
+  { key: 'telescopicos', label: 'Manipuladores telescópicos' },
+  { key: 'pemp', label: 'Plataformas elevadoras (PEMP)' },
+  { key: 'barredoras', label: 'Barredoras y fregadoras industriales' },
+];
+
+/* ================================================================
+   Construir la cuadrícula de tipología dinámicamente
+   ================================================================ */
+(function buildTypoGrid() {
+  const grid = document.getElementById('typoGrid');
+  TIPOLOGIAS.forEach(t => {
+    const row = document.createElement('div');
+    row.className = 'typo-row';
+    row.dataset.key = t.key;
+    row.innerHTML = `
+      <span class="typo-label">${t.label}</span>
+      <div class="typo-yn">
+        <input type="radio" name="tipo_${t.key}" value="SI" id="tipo_${t.key}_si" />
+        <label for="tipo_${t.key}_si" class="yes">SÍ</label>
+        <input type="radio" name="tipo_${t.key}" value="NO" id="tipo_${t.key}_no" />
+        <label for="tipo_${t.key}_no" class="no">NO</label>
+      </div>
+    `;
+    grid.appendChild(row);
+  });
+  // Visual state when selected
+  grid.addEventListener('change', e => {
+    const row = e.target.closest('.typo-row');
+    if (row) row.classList.add('has-value');
+  });
+})();
+
+/* ================================================================
+   Pre-cumplimentación vía URL (para que Sophía/Vane generen un
+   enlace con los datos del cliente ya rellenos)
+   ================================================================ */
+(function fillFromURL() {
+  const params = new URLSearchParams(window.location.search);
+  params.forEach((value, key) => {
+    if (key === 'locked') return;
+    const field = document.querySelector(`[name="${key}"]`);
+    if (!field) return;
+    if (field.type === 'radio') {
+      const r = document.querySelector(`[name="${key}"][value="${value}"]`);
+      if (r) r.checked = true;
+    } else {
+      field.value = value;
+    }
+  });
+})();
+
+/* ================================================================
+   Bloqueo de los campos de Datos del cliente cuando el enlace
+   llega al cliente (param ?locked=1). Los inputs quedan readonly
+   y se marcan visualmente. El cliente sigue pudiendo rellenar
+   las secciones 1-4 normalmente.
+   ================================================================ */
+(function applyLockFromURL() {
+  const params = new URLSearchParams(window.location.search);
+  if (params.get('locked') !== '1') return;
+  document.querySelectorAll('.section-highlight input').forEach(f => {
+    f.setAttribute('readonly', 'readonly');
+  });
+  // El cliente no necesita "Generar enlace" — eso es interno nuestro
+  const btnLink = document.getElementById('btnLink');
+  if (btnLink) btnLink.style.display = 'none';
+})();
+
+/* ================================================================
+   LocalStorage: autoguardado + restaurar
+   ================================================================ */
+const form = document.getElementById('mainForm');
+const saveText = document.getElementById('saveText');
+
+function saveDraft() {
+  const data = {};
+  new FormData(form).forEach((v, k) => { data[k] = v; });
+  localStorage.setItem(CONFIG.STORAGE_KEY, JSON.stringify({ data, ts: Date.now() }));
+  saveText.textContent = 'Guardado ' + new Date().toLocaleTimeString('es-ES', {hour:'2-digit', minute:'2-digit'});
+  updateProgress();
+}
+
+function loadDraft() {
+  const raw = localStorage.getItem(CONFIG.STORAGE_KEY);
+  if (!raw) return;
+  try {
+    const { data } = JSON.parse(raw);
+    Object.entries(data).forEach(([k, v]) => {
+      const field = document.querySelector(`[name="${k}"]`);
+      if (!field) return;
+      // Si ya viene por URL, no pisamos
+      if (field.type === 'radio') {
+        const checked = document.querySelector(`[name="${k}"]:checked`);
+        if (!checked) {
+          const r = document.querySelector(`[name="${k}"][value="${v}"]`);
+          if (r) r.checked = true;
+        }
+      } else if (!field.value) {
+        field.value = v;
+      }
+    });
+    // Recolorear las filas de tipología que tengan valor
+    document.querySelectorAll('.typo-row').forEach(row => {
+      if (row.querySelector('input[type="radio"]:checked')) row.classList.add('has-value');
+    });
+  } catch(e) { console.warn('draft corrupto', e); }
+}
+
+/* ================================================================
+   Progreso — % de campos con valor
+   (Excluye los campos de Datos del cliente — los rellenamos nosotras
+    antes de enviar el enlace)
+   ================================================================ */
+function updateProgress() {
+  const fields = form.querySelectorAll('input:not([type=radio]):not([type=submit]), select, textarea');
+  const radios = {};
+  form.querySelectorAll('input[type=radio]').forEach(r => {
+    if (r.closest('.section-highlight')) return;
+    radios[r.name] = radios[r.name] || false;
+    if (r.checked) radios[r.name] = true;
+  });
+  let total = 0, filled = 0;
+  fields.forEach(f => {
+    if (f.closest('.section-highlight')) return;
+    total++;
+    if (f.value && f.value.trim() !== '') filled++;
+  });
+  Object.values(radios).forEach(v => { total++; if (v) filled++; });
+  const pct = total === 0 ? 0 : Math.round((filled / total) * 100);
+  document.getElementById('progressFill').style.width = pct + '%';
+  document.getElementById('progressPct').textContent = pct + '%';
+}
+
+/* ================================================================
+   Permitir deseleccionar radios (2º click sobre el marcado → off)
+   ================================================================ */
+form.querySelectorAll('input[type="radio"]').forEach(r => {
+  r.addEventListener('click', function() {
+    if (this.dataset.wasChecked === 'true') {
+      this.checked = false;
+      this.dataset.wasChecked = 'false';
+      this.dispatchEvent(new Event('change', { bubbles: true }));
+    } else {
+      document.querySelectorAll(`input[name="${this.name}"]`).forEach(o => {
+        o.dataset.wasChecked = 'false';
+      });
+      this.dataset.wasChecked = 'true';
+    }
+  });
+});
+
+/* ================================================================
+   Mostrar/ocultar campos % de manuales según la opción elegida
+   (solo visibles cuando se marca "Parcialmente")
+   ================================================================ */
+function togglePctField(radioName, wrapId) {
+  const checked = document.querySelector(`[name="${radioName}"]:checked`);
+  const wrap = document.getElementById(wrapId);
+  if (!wrap) return;
+  const show = checked && checked.value === 'Parcialmente';
+  wrap.style.display = show ? '' : 'none';
+  if (!show) {
+    const input = wrap.querySelector('input');
+    if (input) input.value = '';
+  }
+}
+document.querySelectorAll('[name="manuales_propias"]').forEach(r => r.addEventListener('change', () => togglePctField('manuales_propias', 'pct_propias_wrap')));
+document.querySelectorAll('[name="manuales_externas"]').forEach(r => r.addEventListener('change', () => togglePctField('manuales_externas', 'pct_externas_wrap')));
+
+/* ================================================================
+   Listeners
+   ================================================================ */
+loadDraft();
+// Marcar como "ya seleccionado" los radios que vienen restaurados — así el siguiente click los deselecciona
+form.querySelectorAll('input[type="radio"]:checked').forEach(r => r.dataset.wasChecked = 'true');
+togglePctField('manuales_propias', 'pct_propias_wrap');
+togglePctField('manuales_externas', 'pct_externas_wrap');
+updateProgress();
+
+let saveTimer;
+form.addEventListener('input', () => {
+  clearTimeout(saveTimer);
+  saveText.textContent = 'Guardando…';
+  saveTimer = setTimeout(saveDraft, 400);
+});
+form.addEventListener('change', () => {
+  clearTimeout(saveTimer);
+  saveTimer = setTimeout(saveDraft, 200);
+});
+
+/* ================================================================
+   Toast helper
+   ================================================================ */
+function toast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2200);
+}
+
+/* ================================================================
+   Botón: Borrar borrador
+   ================================================================ */
+document.getElementById('btnClear').addEventListener('click', () => {
+  if (!confirm('¿Seguro que quieres borrar los datos? Se perderán todos los campos rellenados.')) return;
+  localStorage.removeItem(CONFIG.STORAGE_KEY);
+  form.reset();
+  document.querySelectorAll('.typo-row').forEach(r => r.classList.remove('has-value'));
+  updateProgress();
+  toast('Datos eliminados');
+});
+
+/* ================================================================
+   Botón: Generar enlace pre-cumplimentado
+   (para que Sophía/Vane rellenen la empresa y los contactos
+    y manden al cliente un enlace con esos datos ya dentro)
+   ================================================================ */
+document.getElementById('btnLink').addEventListener('click', async () => {
+  // Contactos (irán bloqueados en el enlace del cliente) + Datos del cliente
+  // (que sí podrá editar si nos hemos equivocado en algo)
+  const wanted = ['c1_nombre','c1_cargo','c1_email','c1_telefono',
+                  'c2_nombre','c2_cargo','c2_email','c2_telefono',
+                  'empresa','cif','sector','provincia','delegaciones','marca_distribucion'];
+  const params = new URLSearchParams();
+  wanted.forEach(name => {
+    const f = form.querySelector(`[name="${name}"]`);
+    if (f && f.value) params.set(name, f.value);
+  });
+  // Marca el enlace como "para cliente" → bloquea la edición de Datos del cliente
+  params.set('locked', '1');
+  const base = window.location.origin + window.location.pathname;
+  const url = base + '?' + params.toString();
+  try {
+    await navigator.clipboard.writeText(url);
+    toast('Enlace copiado al portapapeles');
+  } catch (e) {
+    prompt('Copia manualmente este enlace:', url);
+  }
+});
+
+/* ================================================================
+   Submit — envío vía FormSubmit (AJAX)
+   ================================================================ */
+form.addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const errorBanner = document.getElementById('errorBanner');
+  errorBanner.classList.add('hidden');
+
+  // Validar campos requeridos
+  const required = form.querySelectorAll('[required]');
+  for (const f of required) {
+    if (!f.value.trim()) {
+      errorBanner.textContent = 'Por favor, completa los campos obligatorios (marcados con *).';
+      errorBanner.classList.remove('hidden');
+      f.focus();
+      errorBanner.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      return;
+    }
+  }
+
+  const submitBtn = document.getElementById('btnSubmit');
+  submitBtn.disabled = true;
+  submitBtn.textContent = 'Enviando…';
+
+  // Construir payload amigable para el email
+  const data = {};
+  new FormData(form).forEach((v, k) => { data[k] = v; });
+
+  // Pintar tipologías como "SI/NO" explícito
+  const tipologiasPayload = {};
+  TIPOLOGIAS.forEach(t => {
+    tipologiasPayload[t.label] = data['tipo_' + t.key] || '—';
+    delete data['tipo_' + t.key];
+  });
+
+  const payload = {
+    _subject: `Cuestionario Inicial Zanet — ${data.empresa || 'Sin empresa'}`,
+    _template: 'table',
+    _captcha: 'false',
+  };
+  if (CONFIG.EMAIL_CC) payload._cc = CONFIG.EMAIL_CC;
+  Object.assign(payload, {
+
+    'Empresa': data.empresa || '',
+    'CIF': data.cif || '',
+    'Sector': data.sector || '',
+    'Provincia sede principal': data.provincia || '',
+    'Nº delegaciones / centros': data.delegaciones || '',
+    'Marca principal distribución': data.marca_distribucion || '',
+    '— Contacto 1 —': '',
+    'C1 · Nombre': data.c1_nombre || '',
+    'C1 · Cargo': data.c1_cargo || '',
+    'C1 · Email': data.c1_email || '',
+    'C1 · Teléfono': data.c1_telefono || '',
+    '— Contacto 2 —': '',
+    'C2 · Nombre': data.c2_nombre || '',
+    'C2 · Cargo': data.c2_cargo || '',
+    'C2 · Email': data.c2_email || '',
+    'C2 · Teléfono': data.c2_telefono || '',
+
+    '— 1. Activos gestionados —': '',
+    'Nº máquinas propias': data.maq_propias || '',
+    'Marcas (propias)': data.marcas_propias || '',
+    'Nº máquinas externas': data.maq_externas || '',
+    'Marcas (externas)': data.marcas_externas || '',
+    'Manuales propias': data.manuales_propias || '',
+    '% manuales propias': data.manuales_propias_pct || '',
+    'Manuales externas': data.manuales_externas || '',
+    '% manuales externas': data.manuales_externas_pct || '',
+    'Nº modelos distintos': data.modelos_distintos || '',
+    'Comentarios activos': data.comentarios_activos || '',
+
+    '— 2. Distribución de recursos —': '',
+    'Nº total empleados': data.emp_total || '',
+    'Nº técnicos': data.emp_tecnicos || '',
+    'Nº jefes de taller': data.emp_jefes || '',
+    'Nº mandos intermedios': data.emp_mandos || '',
+    'Comentarios recursos': data.comentarios_recursos || '',
+
+    '— 3. Tipología de maquinaria —': '',
+    ...tipologiasPayload,
+    'Otros tipos': data.tipo_otros || '',
+    'Comentarios tipología': data.comentarios_tipologia || '',
+
+    '— 4. Sistemas e integración —': '',
+    'ERP': data.erp_nombre || '',
+    'Hosting ERP': data.erp_hosting || '',
+    'Otros sistemas': data.sistemas_otros || '',
+    'API / integraciones': data.sistemas_api || '',
+    'Gestión de órdenes de trabajo': data.gestion_ot || '',
+    'Comentarios sistemas': data.comentarios_sistemas || '',
+
+    '— Comentarios finales —': '',
+    'Comentarios globales': data.comentarios_global || '',
+  });
+
+  try {
+    const res = await fetch(CONFIG.FORMSUBMIT_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+      body: JSON.stringify(payload),
+    });
+    const json = await res.json().catch(() => ({}));
+    if (!res.ok || (json.success !== 'true' && json.success !== true)) {
+      throw new Error(json.message || 'Error del servidor');
+    }
+    // Éxito: limpiar borrador y mostrar pantalla de gracias
+    localStorage.removeItem(CONFIG.STORAGE_KEY);
+    document.getElementById('formView').classList.add('hidden');
+    document.getElementById('successView').classList.remove('hidden');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  } catch (err) {
+    errorBanner.textContent = 'No hemos podido enviar el cuestionario. Revisa tu conexión e inténtalo de nuevo, o escríbenos a ' + CONFIG.EMAIL_PRIMARY + '. (Detalle: ' + err.message + ')';
+    errorBanner.classList.remove('hidden');
+    submitBtn.disabled = false;
+    submitBtn.textContent = 'Enviar cuestionario →';
+    errorBanner.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  }
+});
+</script>
+</body>
+</html>
